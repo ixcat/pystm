@@ -1,0 +1,17 @@
+
+pystm
+=====
+
+Cheap quasi-transactional memory object dictionary.
+
+Currently provides a dictionary which tracks history via variable copy-in.
+
+Todo:
+
+  - Implement 'real' but crude stm via internal locking.
+
+See also:
+
+  https://docs.python.org/3/reference/datamodel.html#emulating-container-types
+  https://en.wikipedia.org/wiki/Software_transactional_memory
+
