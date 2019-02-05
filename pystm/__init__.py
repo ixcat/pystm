@@ -12,6 +12,7 @@ See also:
 
 import numpy as np
 
+
 class STM(object):
 
     _copy_map = {
@@ -24,6 +25,7 @@ class STM(object):
         np.ndarray: np.array,
         type(type): type
     }
+    class Absent(object): pass
 
     def __init__(self):
         self._frames = []
@@ -71,7 +73,7 @@ class STM(object):
 
     def history(self, key=None):
         if key:
-            return [i.get(key, None) for i in self._frames]
+            return [i.get(key, STM.Absent) for i in self._frames]
         else:
             return self._frames
 
