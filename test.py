@@ -21,6 +21,10 @@ def test_one():
 
     del stm['foo']
     print(stm.history('foo'))
+
+    stm['foo'] = None
+    print(stm.history('foo'))
+
     stm['foo'] = [1,2]
 
     print(stm.history('foo'))
