@@ -15,6 +15,7 @@ import numpy as np
 class STM(object):
 
     _copy_map = {
+        type(None) : lambda v: None,
         type(bool()) : bool,
         type(int()): int,
         type(float()): float,
@@ -73,3 +74,4 @@ class STM(object):
             return [i.get(key, None) for i in self._frames]
         else:
             return self._frames
+
