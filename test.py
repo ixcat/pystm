@@ -58,13 +58,11 @@ def test_push():
     interested = ['x']
 
     x = 1
-    stm['tag'] = '1'
-    stm.push(locals(), interested)
+    stm.push(locals(), interested, [('tag', '1')])
     print(stm.history())
 
     x = 2
-    stm['tag'] = '2'
-    stm.push(locals(), interested)
+    stm.push(locals(), interested, [('tag', '2')])
     print(stm.history())
 
 
