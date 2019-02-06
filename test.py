@@ -13,10 +13,11 @@ import numpy as np
 from pystm import STM
 
 def test_one():
+    print('test_one')
     stm = STM()
     v = True
     stm['foo'] = v
-    
+
     stm['foo'] = 'baz'
     print(stm.history('foo'))
 
@@ -26,7 +27,7 @@ def test_one():
     stm['foo'] = None
     print(stm.history('foo'))
 
-    stm['foo'] = [1,2]
+    stm['foo'] = [1, 2]
     print(stm.history('foo'))
 
     stm['foo'] = OrderedDict([tuple(stm['foo'])])
@@ -36,6 +37,7 @@ def test_one():
 
 
 def test_two():
+    print('test_two')
     stm = STM()
 
     a = stm['a'] = np.array(((10,) * 10), np.int64)
@@ -49,7 +51,23 @@ def test_two():
     return stm
 
 
+def test_push():
+    print('test_three')
+
+    stm = STM()
+    interested = ['x']
+    x = 1
+
+    stm.push(locals(), interested)
+    print(stm.history())
+    x = 2
+
+    stm.push(locals(), interested)
+    print(stm.history())
+
+
 if __name__ == '__main__':
     t1 = test_one()
     t2 = test_two()
+    t_push = test_push()
     interact('stm', local=globals())
