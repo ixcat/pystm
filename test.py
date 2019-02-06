@@ -55,15 +55,17 @@ def test_push():
     print('test_three')
 
     stm = STM()
-    interested = ['x']
+    interested = ['tag', 'x']
 
     x = 1
-    stm['tag'] = '1'
+    tag = '1'
+    stm['tag_direct'] = tag
     stm.push(locals(), interested)
     print(stm.history())
 
     x = 2
-    stm['tag'] = '2'
+    tag = '2'
+    stm['tag_direct'] = tag
     stm.push(locals(), interested)
     print(stm.history())
 
