@@ -4,6 +4,7 @@
 test module for pystm
 '''
 
+from collections import OrderedDict
 
 from code import interact
 
@@ -26,16 +27,24 @@ def test_one():
     print(stm.history('foo'))
 
     stm['foo'] = [1,2]
-
     print(stm.history('foo'))
+
+    stm['foo'] = OrderedDict([tuple(stm['foo'])])
+    print(stm.history('foo'))
+
     return stm
+
 
 def test_two():
     stm = STM()
-    
+
     a = stm['a'] = np.array(((10,) * 10), np.int64)
-    a = stm['a'] = stm['a'] + 5
-    stm['a'] *= 5
+    stm['a'] = stm['a'] + 5
+    a = stm['a']
+    del stm['a']
+    stm['a'] = a * 5
+
+    print(stm.history('a'))
 
     return stm
 
