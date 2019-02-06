@@ -10,29 +10,29 @@ See also:
 
 '''
 
-import numpy as np
-
 
 class STM(object):
 
-    _copy_map = {
-        type(None) : lambda v: None,
-        type(bool()) : bool,
-        type(int()): int,
-        type(float()): float,
-        type(str()): str,
-        type(list()): list,
-        np.ndarray: np.array,
-        type(type): type
-    }
-    class Absent(object): pass
+    absent = None
+
+    class Absent(object):
+        def __repr__(self):
+            return 'STM.Absent'
 
     def __init__(self):
+        if STM.absent is None:
+            STM.absent = STM.Absent()
+
         self._frames = []
         self._vals = {}
 
     def _copy(self, obj):
-        return self._copy_map[type(obj)](obj)
+        return {
+            type(type):
+                lambda v:
+                    v if not isinstance(type(v), type(None))
+                    else None
+        }[type(type(obj))](obj)
 
     def __len__(self):
         return len(self._vals)
@@ -47,7 +47,7 @@ class STM(object):
         return new
 
     def __delitem__(self, key):
-        self._frames.append({k: dct[k] for k in self._vals if k != key})
+        self._frames.append({k: self._vals[k] for k in self._vals if k != key})
         del self._vals[key]
 
     def __missing__(self, key):
@@ -73,7 +73,6 @@ class STM(object):
 
     def history(self, key=None):
         if key:
-            return [i.get(key, STM.Absent) for i in self._frames]
+            return [i.get(key, STM.absent) for i in self._frames]
         else:
             return self._frames
-
