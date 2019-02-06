@@ -81,7 +81,7 @@ class STM(object):
         else:
             return self._frames
 
-    def push(self, dct, interested, extra=[]):
+    def push(self, dct, interested):
         '''
         Assign (and thus save) keys from dct which we are interested in
 
@@ -94,11 +94,7 @@ class STM(object):
             >>> m.push(locals(), interested)
 
         '''
-
         new = {**self._vals, **{k: self._copy(dct[k]) for k in dct
                                 if k in interested}}
-        for e in extra:
-            new[e[0]] = e[1]
-
         self._frames.append(dict(new))
         self._vals = new
