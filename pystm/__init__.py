@@ -72,7 +72,29 @@ class STM(object):
         return self._vals.items()
 
     def history(self, key=None):
+        '''
+        return full history or history for one key
+        TODO: return key-like history for N keys if requested
+        '''
         if key:
             return [i.get(key, STM.absent) for i in self._frames]
         else:
             return self._frames
+
+    def push(self, dct, interested):
+        '''
+        Assign (and thus save) keys from dct which we are interested in
+
+        Intended as an alternate use case from direct use -
+        e.g. rather than using STM directly, use to trace history::
+
+            >>> m = STM()
+            >>> v = 1
+            >>> interested = ['v']
+            >>> m.push(locals(), interested)
+
+        '''
+        new = {**self._vals, **{k: self._copy(dct[k]) for k in dct
+                                if k in interested}}
+        self._frames.append(dict(new))
+        self._vals = new
