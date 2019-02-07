@@ -94,7 +94,10 @@ class STM(object):
             >>> m.push(locals(), interested)
 
         '''
-        new = {**self._vals, **{k: self._copy(dct[k]) for k in dct
-                                if k in interested}}
-        self._frames.append(dict(new))
-        self._vals = new
+        tmp = dict(self._vals)
+        for k in interested:
+            if k in dct:
+                new = self._copy(dct[k])
+                self._vals[k] = tmp[k] = new
+
+        self._frames.append(tmp)
